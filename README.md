@@ -1,3 +1,6 @@
+# Fieldin Restinio Fork
+RESTinio was forked at 14/11/23 and rebased to the first commit from the 8/11/23. This was done to stabilise the structure of the Core-Feed-Processor and it's dependencies with RESTinio being the main external one.
+
 # What Is RESTinio?
 
 RESTinio is a C++17 library that gives you an embedded
