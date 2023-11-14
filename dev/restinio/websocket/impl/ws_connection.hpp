@@ -12,11 +12,11 @@
 
 #include <restinio/asio_include.hpp>
 
-#include <llhttp.h>
+#include <http_parser.h>
 
 #include <restinio/impl/include_fmtlib.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/impl/executor_wrapper.hpp>
 #include <restinio/impl/write_group_output_ctx.hpp>
 #include <restinio/websocket/message.hpp>
@@ -63,10 +63,10 @@ class ws_outgoing_data_t
 			m_awaiting_write_groups.emplace( std::move( wg ) );
 		}
 
-		std::optional< write_group_t >
+		optional_t< write_group_t >
 		pop_ready_buffers()
 		{
-			std::optional< write_group_t > result;
+			optional_t< write_group_t > result;
 
 			if( !m_awaiting_write_groups.empty() )
 			{
@@ -1139,17 +1139,17 @@ class ws_connection_t final
 			{
 				auto wo = m_write_output_ctx.extract_next_write_operation();
 
-				if( std::holds_alternative< trivial_write_operation_t >( wo ) )
+				if( holds_alternative< trivial_write_operation_t >( wo ) )
 				{
-					handle_trivial_write_operation( std::get< trivial_write_operation_t >( wo ) );
+					handle_trivial_write_operation( get< trivial_write_operation_t >( wo ) );
 				}
-				else if( std::holds_alternative< none_write_operation_t >( wo ) )
+				else if( holds_alternative< none_write_operation_t >( wo ) )
 				{
 					finish_handling_current_write_ctx();
 				}
 				else
 				{
-					assert( std::holds_alternative< file_write_operation_t >( wo ) );
+					assert( holds_alternative< file_write_operation_t >( wo ) );
 					throw exception_t{ "sendfile write operation not implemented" };
 				}
 			}

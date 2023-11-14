@@ -53,7 +53,7 @@ struct method_matcher_t
 	 * \retval true if @a method can be applied to a route.
 	 * \retval false if @a method can't be applied to a route.
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	virtual bool
 	match( const http_method_id_t & method ) const noexcept = 0;
 };
@@ -87,7 +87,7 @@ public :
 		:	m_matcher{ std::make_unique<Matcher>( std::forward<Args>(args)... ) }
 	{}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -116,7 +116,7 @@ public :
 		:	m_method{ std::move(method) }
 	{}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -156,7 +156,7 @@ public :
 		std::copy( values.begin(), values.end(), m_methods.begin() );
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -188,7 +188,7 @@ class fixed_size_none_of_matcher_t
 public :
 	using base_type_t::base_type_t;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -353,17 +353,17 @@ public :
 	}
 
 	//! Get the pointer to actual matcher inside the holder.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	method_matcher_t *
 	get() const noexcept { return m_matcher; }
 
 	//! Get the pointer to actual matcher inside the holder.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	method_matcher_t *
 	operator->() const noexcept { return m_matcher; }
 
 	//! Get a reference to actual matcher inside the holder.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	method_matcher_t &
 	operator*() const noexcept { return *m_matcher; }
 
@@ -412,7 +412,7 @@ public :
  * @since v.0.6.6
  */
 template< typename... Args >
-[[nodiscard]]
+RESTINIO_NODISCARD
 impl::fixed_size_any_of_matcher_t< sizeof...(Args) >
 any_of_methods( Args && ...args )
 {
@@ -444,7 +444,7 @@ any_of_methods( Args && ...args )
  * @since v.0.6.6
  */
 template< typename... Args >
-[[nodiscard]]
+RESTINIO_NODISCARD
 impl::fixed_size_none_of_matcher_t< sizeof...(Args) >
 none_of_methods( Args && ...args )
 {
@@ -479,7 +479,7 @@ class dynamic_any_of_methods_matcher_t : public method_matcher_t
 public:
 	dynamic_any_of_methods_matcher_t() = default;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -497,14 +497,14 @@ public:
 		return *this;
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	std::size_t
 	size() const noexcept
 	{
 		return m_methods.size();
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	empty() const noexcept
 	{
@@ -540,7 +540,7 @@ class dynamic_none_of_methods_matcher_t : public method_matcher_t
 public:
 	dynamic_none_of_methods_matcher_t() = default;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	match( const http_method_id_t & method ) const noexcept override
 	{
@@ -558,14 +558,14 @@ public:
 		return *this;
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	std::size_t
 	size() const noexcept
 	{
 		return m_methods.size();
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	empty() const noexcept
 	{

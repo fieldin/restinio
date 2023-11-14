@@ -55,7 +55,7 @@ struct accept_encoding_value_t
 	 *
 	 * @since v.0.6.2
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -74,7 +74,7 @@ struct accept_encoding_value_t
 	 *
 	 * @since v.0.6.2
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t< accept_encoding_value_t, restinio::easy_parser::parse_error_t >
 	try_parse( string_view_t what )
 	{

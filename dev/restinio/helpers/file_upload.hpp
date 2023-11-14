@@ -80,7 +80,7 @@ namespace impl
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 constexpr enumeration_error_t
 translate_enumeration_error(
 	restinio::multipart_body::enumeration_error_t original )
@@ -166,13 +166,13 @@ struct part_description_t
 	 * that this field will hold values defined in RFC5987 like:
 	 * `utf-8'en-US'A%20some%20filename.txt`
 	 */
-	std::optional< std::string > filename_star;
+	optional_t< std::string > filename_star;
 	//! The value of Content-Disposition's 'filename' parameter.
 	/*!
 	 * This field has the value only of 'filename' parameter was
 	 * found in Content-Disposition field.
 	 */
-	std::optional< std::string > filename;
+	optional_t< std::string > filename;
 };
 
 //
@@ -216,7 +216,7 @@ struct part_description_t
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< part_description_t, enumeration_error_t >
 analyze_part( restinio::multipart_body::parsed_part_t parsed_part )
 {
@@ -245,11 +245,11 @@ analyze_part( restinio::multipart_body::parsed_part_t parsed_part )
 				enumeration_error_t::content_disposition_field_inappropriate_value );
 	const auto expected_to_optional = []( auto expected ) {
 		return expected ?
-				std::optional< std::string >{ std::string{
+				optional_t< std::string >{ std::string{
 						expected->data(),
 						expected->size()
 				} }
-				: std::optional< std::string >{};
+				: optional_t< std::string >{};
 	};
 
 	auto filename_star = expected_to_optional( hfp::find_first(
@@ -375,7 +375,7 @@ enumerate_parts_with_files(
 			"and should return handling_result_t" );
 
 	std::size_t files_found{ 0u };
-	std::optional< enumeration_error_t > error;
+	optional_t< enumeration_error_t > error;
 
 	const auto result = restinio::multipart_body::enumerate_parts( req,
 			[&handler, &files_found, &error]

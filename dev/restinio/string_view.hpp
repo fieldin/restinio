@@ -8,10 +8,14 @@
 
 #pragma once
 
-#include <string_view>
+#if defined(RESTINIO_EXTERNAL_STRING_VIEW_LITE)
+	#include <nonstd/string_view.hpp>
+#else
+	#include "third_party/string-view-lite/string_view.hpp"
+#endif
 
 namespace restinio
 {
-	using string_view_t = std::string_view;
+	using string_view_t = nonstd::string_view;
 
 } /* namespace restinio */

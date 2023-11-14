@@ -2,9 +2,9 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/websocket/websocket.hpp>
 
 #include <test/common/utest_logger.hpp>
@@ -41,7 +41,7 @@ struct state_listener_t
 	void state_changed(
 		const restinio::connection_state::notice_t & notice ) noexcept
 	{
-		std::visit( cause_visitor_t{ *this }, notice.cause() );
+		restinio::visit( cause_visitor_t{ *this }, notice.cause() );
 	}
 };
 
@@ -77,7 +77,7 @@ struct state_listener_that_throws_on_accept_t
 	void state_changed(
 		const restinio::connection_state::notice_t & notice )
 	{
-		std::visit( cause_visitor_t{ *this }, notice.cause() );
+		restinio::visit( cause_visitor_t{ *this }, notice.cause() );
 	}
 };
 
@@ -113,7 +113,7 @@ struct state_listener_that_throws_on_close_t
 	void state_changed(
 		const restinio::connection_state::notice_t & notice )
 	{
-		std::visit( cause_visitor_t{ *this }, notice.cause() );
+		restinio::visit( cause_visitor_t{ *this }, notice.cause() );
 	}
 };
 
@@ -149,7 +149,7 @@ struct state_listener_that_throws_on_ws_upgrade_t
 	void state_changed(
 		const restinio::connection_state::notice_t & notice )
 	{
-		std::visit( cause_visitor_t{ *this }, notice.cause() );
+		restinio::visit( cause_visitor_t{ *this }, notice.cause() );
 	}
 };
 

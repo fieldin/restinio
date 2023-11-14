@@ -23,7 +23,9 @@ namespace utils
 namespace metaprogramming
 {
 
-template<typename... Ts> using void_t = std::void_t<Ts...>;
+// See https://en.cppreference.com/w/cpp/types/void_t for details.
+template<typename... Ts> struct make_void { using type = void; };
+template<typename... Ts> using void_t = typename make_void<Ts...>::type;
 
 namespace impl
 {

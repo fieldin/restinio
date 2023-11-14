@@ -8,14 +8,14 @@
 
 #pragma once
 
+#include <string>
+#include <unordered_map>
+
 #include <restinio/impl/include_fmtlib.hpp>
 
 #include <restinio/exception.hpp>
 #include <restinio/utils/percent_encoding.hpp>
-
-#include <optional>
-#include <string>
-#include <unordered_map>
+#include <restinio/optional.hpp>
 
 namespace restinio
 {
@@ -57,7 +57,7 @@ class query_string_params_t final
 		//! (web beacon).
 		query_string_params_t(
 			std::unique_ptr< char[] > data_buffer,
-			std::optional< string_view_t > tag )
+			optional_t< string_view_t > tag )
 			:	m_data_buffer{ std::move( data_buffer ) }
 			,	m_tag{ tag }
 		{}
@@ -84,14 +84,14 @@ class query_string_params_t final
 
 		//! Get the value of a parameter if it exists.
 		//! @since v.0.4.4
-		std::optional< string_view_t >
+		optional_t< string_view_t >
 		get_param( string_view_t key ) const noexcept
 		{
 			const auto it = find_parameter( key );
 
 			return m_parameters.end() != it ?
-				std::optional< string_view_t >{ it->second } :
-				std::optional< string_view_t >{ std::nullopt };
+				optional_t< string_view_t >{ it->second } :
+				optional_t< string_view_t >{ nullopt };
 		}
 
 		//! Get the size of parameters.
@@ -166,7 +166,7 @@ class query_string_params_t final
 
 		//! Tag (or web beacon) part.
 		/*! @since v.0.4.9 */
-		std::optional< string_view_t > m_tag;
+		optional_t< string_view_t > m_tag;
 };
 
 //! Cast query string parameter to a given type.
@@ -174,7 +174,7 @@ template < typename Value_Type >
 Value_Type
 get( const query_string_params_t & params, string_view_t key )
 {
-	return std::get< Value_Type >( params[ key ] );
+	return get< Value_Type >( params[ key ] );
 }
 
 namespace parse_query_traits
@@ -350,7 +350,7 @@ public:
 	{}
 
 	//! Get a reference to the description of the failure.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	const std::string &
 	description() const noexcept { return m_description; }
 
@@ -360,7 +360,7 @@ public:
 	 * elsewhere (to another object like parse_query_failure_t or to some
 	 * exception-like object).
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	std::string
 	giveout_description() noexcept { return m_description; }
 };
@@ -394,7 +394,7 @@ public:
  * @since v.0.6.5
  */
 template< typename Parse_Traits >
-[[nodiscard]]
+RESTINIO_NODISCARD
 expected_t< query_string_params_t, parse_query_failure_t >
 try_parse_query(
 	//! Query part of the request target.
@@ -515,7 +515,7 @@ try_parse_query(
 	@endcode
 */
 template< typename Parse_Traits = parse_query_traits::restinio_defaults >
-[[nodiscard]]
+RESTINIO_NODISCARD
 query_string_params_t
 parse_query(
 	//! Query part of the request target.

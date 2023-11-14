@@ -23,7 +23,7 @@ namespace connection_state
  * @note
  * You have to manually include `restinio/tls.hpp` to get the definition
  * of that class. This definition is not present if you include only
- * `restinio/core.hpp`
+ * `restinio/all.hpp`
  *
  * @since v.0.6.0
  */
@@ -85,7 +85,7 @@ public:
 	 *
 	 * @since v.0.6.0
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	auto native_handle() const noexcept
 	{
 		return m_tls_socket.asio_ssl_stream().native_handle();

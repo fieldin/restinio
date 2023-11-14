@@ -6,9 +6,9 @@
 	Tests for specific websocket protocol validations.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/websocket/websocket.hpp>
 
 #include <test/common/pub.hpp>

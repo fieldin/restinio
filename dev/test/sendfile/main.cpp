@@ -6,9 +6,9 @@
 	Sendfile.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <restinio/utils/at_scope_exit.hpp>
 

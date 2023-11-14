@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/tls.hpp>
 
 #include <fmt/format.h>
@@ -198,7 +198,7 @@ public:
 	void state_changed(
 		const restinio::connection_state::notice_t & notice)
 	{
-		std::visit(
+		restinio::visit(
 				notice_visitor_t{ *m_user_connections, notice },
 				notice.cause() );
    }

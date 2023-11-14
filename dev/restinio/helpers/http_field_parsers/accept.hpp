@@ -57,7 +57,7 @@ struct accept_value_t
 		using accept_ext_container_t = parameter_with_optional_value_container_t;
 
 		media_type_value_t media_type;
-		std::optional< qvalue_t > weight;
+		restinio::optional_t< qvalue_t > weight;
 		accept_ext_container_t accept_params;
 	};
 
@@ -70,7 +70,7 @@ struct accept_value_t
 	 *
 	 * @since v.0.6.1
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -94,7 +94,7 @@ struct accept_value_t
 	 *
 	 * @since v.0.6.1
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t< accept_value_t, restinio::easy_parser::parse_error_t >
 	try_parse( string_view_t what )
 	{

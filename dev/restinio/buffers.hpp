@@ -8,11 +8,10 @@
 
 #pragma once
 
-#include <array>
-#include <cstring>
 #include <memory>
-#include <new>
+#include <array>
 #include <string>
+#include <cstring>
 #include <type_traits>
 
 #include <restinio/asio_include.hpp>
@@ -519,6 +518,9 @@ enum class writable_item_type_t
 	In that case `reinterpret_cast<T*>(buffer)` produces an invalid pointer that
 	contain a valid address of new object T. std::launder makes translates that
 	invalid pointer to a valid one and the resulting `p` can be used without UB.
+	Because RESTinio is a C++14 library, we use macro RESTINIO_STD_LAUNDER in
+	code. That macro is expanded to actual call of std::launder if C++17 or
+	latter is used.
 */
 class writable_item_t
 {
@@ -652,35 +654,35 @@ class writable_item_t
 		//! Access as writable_base_t item.
 		const impl::writable_base_t * get_writable_base() const noexcept
 		{
-			return std::launder(
+			return RESTINIO_STD_LAUNDER(
 					reinterpret_cast< const impl::writable_base_t * >( m_storage.data() ) );
 		}
 
 		//! Access as writable_base_t item.
 		impl::writable_base_t * get_writable_base() noexcept
 		{
-			return std::launder(
+			return RESTINIO_STD_LAUNDER(
 					reinterpret_cast< impl::writable_base_t * >( m_storage.data() ) );
 		}
 
 		//! Access as trivial buf item.
 		const impl::buf_iface_t * get_buf() const noexcept
 		{
-			return std::launder(
+			return RESTINIO_STD_LAUNDER(
 					reinterpret_cast< const impl::buf_iface_t * >( m_storage.data() ) );
 		}
 
 		//! Access as trivial buf item.
 		impl::buf_iface_t * get_buf() noexcept
 		{
-			return std::launder(
+			return RESTINIO_STD_LAUNDER(
 					reinterpret_cast< impl::buf_iface_t * >( m_storage.data() ) );
 		}
 
 		//! Access as sendfile_write_operation_t item.
 		impl::sendfile_write_operation_t * get_sfwo() noexcept
 		{
-			return std::launder(
+			return RESTINIO_STD_LAUNDER(
 					reinterpret_cast< impl::sendfile_write_operation_t * >( m_storage.data() ) );
 		}
 		///@}

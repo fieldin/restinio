@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 // Create request handler.
 restinio::request_handling_status_t handler( const restinio::request_handle_t& req )

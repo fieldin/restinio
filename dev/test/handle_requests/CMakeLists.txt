@@ -23,10 +23,4 @@ add_subdirectory(connection_count_limit)
 
 add_subdirectory(user_data_simple)
 
-add_subdirectory(sync_chained_handlers)
-add_subdirectory(async_chained_handlers_1)
-
-if( RESTINIO_WITH_SOBJECTIZER )
-	add_subdirectory(async_chained_handlers_2)
-endif()
-
+add_subdirectory(chained_handlers)

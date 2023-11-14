@@ -13,8 +13,9 @@
 
 #include <restinio/helpers/http_field_parsers/basics.hpp>
 
+#include <restinio/variant.hpp>
+
 #include <iostream>
-#include <variant>
 
 namespace restinio
 {
@@ -41,7 +42,7 @@ struct is_token68_char_predicate_t
 {
 	using base_type_t = hfp_impl::is_alphanum_predicate_t;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -59,7 +60,7 @@ struct is_token68_char_predicate_t
 //
 // token68_symbol_p
 //
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 token68_symbol_p()
 {
@@ -92,7 +93,7 @@ operator<<( std::ostream & to, const token68_t & v )
 //
 // token68_p
 //
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 token68_p()
 {
@@ -164,7 +165,7 @@ struct authorization_value_t
 	using token68_t = authorization_details::token68_t;
 
 	//! Type for holding a parameter for authorization.
-	using auth_param_t = std::variant< token68_t, param_container_t >;
+	using auth_param_t = variant_t< token68_t, param_container_t >;
 
 	//! A value of auth-scheme.
 	std::string auth_scheme;
@@ -180,7 +181,7 @@ struct authorization_value_t
 	 *
 	 * @since v.0.6.7
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -231,7 +232,7 @@ struct authorization_value_t
 	 *
 	 * @since v.0.6.7
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t<
 			authorization_value_t,
 			restinio::easy_parser::parse_error_t >
@@ -297,7 +298,7 @@ operator<<(
 		}
 	};
 
-	std::visit( printer_t{ to }, p );
+	restinio::visit( printer_t{ to }, p );
 
 	return to;
 }

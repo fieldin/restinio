@@ -6,14 +6,14 @@
 	Tests for utf8_checker.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/utils/utf8_checker.hpp>
 
 #include <initializer_list>
 #include <string>
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 std::string
 make_from( std::initializer_list<int> values )
 {

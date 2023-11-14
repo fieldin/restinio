@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <so_5/all.hpp>
 
 using resp_parts_container_t = std::vector< std::string >;

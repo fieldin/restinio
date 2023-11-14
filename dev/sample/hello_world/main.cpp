@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 template < typename RESP >
 RESP

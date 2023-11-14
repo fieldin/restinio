@@ -76,7 +76,7 @@ enum class extraction_error_t
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline string_view_t
 to_string_view( extraction_error_t what ) noexcept
 {
@@ -147,12 +147,12 @@ to_string_view( extraction_error_t what ) noexcept
  *
  * @since v.0.6.8
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	const authorization_value_t & http_field )
 {
-	const auto * b64token = std::get_if<authorization_value_t::token68_t>(
+	const auto * b64token = get_if<authorization_value_t::token68_t>(
 			&http_field.auth_param );
 	if( !b64token )
 		return make_unexpected( extraction_error_t::invalid_bearer_auth_param );
@@ -209,12 +209,12 @@ try_extract_params(
  *
  * @since v.0.6.8
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	authorization_value_t && http_field )
 {
-	auto * b64token = std::get_if<authorization_value_t::token68_t>(
+	auto * b64token = get_if<authorization_value_t::token68_t>(
 			&http_field.auth_param );
 	if( !b64token )
 		return make_unexpected( extraction_error_t::invalid_bearer_auth_param );
@@ -225,10 +225,10 @@ try_extract_params(
 namespace impl
 {
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 perform_extraction_attempt(
-	const std::optional< string_view_t > opt_field_value )
+	const optional_t< string_view_t > opt_field_value )
 {
 	if( !opt_field_value )
 		return make_unexpected( extraction_error_t::no_auth_http_field );
@@ -270,7 +270,7 @@ perform_extraction_attempt(
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	//! A set of HTTP-fields.
@@ -303,7 +303,7 @@ try_extract_params(
  * @since v.0.6.7.1
  */
 template< typename Extra_Data >
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	//! A request that should hold a HTTP-field with authentification
@@ -335,7 +335,7 @@ try_extract_params(
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	//! A set of HTTP-fields.
@@ -368,7 +368,7 @@ try_extract_params(
  * @since v.0.6.7.1
  */
 template< typename Extra_Data >
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< params_t, extraction_error_t >
 try_extract_params(
 	//! A request that should hold a HTTP-field with authentification

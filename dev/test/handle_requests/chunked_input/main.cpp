@@ -2,16 +2,16 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <test/common/utest_logger.hpp>
 #include <test/common/pub.hpp>
 
 #include <iterator>
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 restinio::fmt_minimal_memory_buffer_t
 format_chunked_input_info(
 	const restinio::request_t & req )
@@ -29,33 +29,9 @@ format_chunked_input_info(
 				RESTINIO_FMT_FORMAT_STRING( "chunks:{};" ),
 				chunked_input->chunk_count() );
 		for( const auto & ch : chunked_input->chunks() )
-		{
-			if( const auto * ext_params = ch.ext_params(); ext_params )
-			{
-				std::vector<std::string> exts;
-				std::transform(
-					begin( *ext_params ),
-					end( *ext_params ),
-					std::back_inserter( exts ),
-					[]( const auto & p ){
-						return fmt::format(
-							RESTINIO_FMT_FORMAT_STRING( "('{}','{}')" ),
-							p.m_name,
-							p.m_value );
-					} );
-				fmt::format_to( resp_body_inserter,
-						RESTINIO_FMT_FORMAT_STRING( "[{},{};ext:{}]" ),
-						ch.started_at(),
-						ch.size(),
-						fmt::join(begin(exts), end(exts), "," ) );
-			}
-			else
-			{
-				fmt::format_to( resp_body_inserter,
-					RESTINIO_FMT_FORMAT_STRING( "[{},{};ext:nullptr]" ),
+			fmt::format_to( resp_body_inserter,
+					RESTINIO_FMT_FORMAT_STRING( "[{},{}]" ),
 					ch.started_at(), ch.size() );
-			}
-		}
 		fmt::format_to( resp_body_inserter,
 				RESTINIO_FMT_FORMAT_STRING( ";trailing_fields:{};" ),
 				chunked_input->trailing_fields().fields_count() );
@@ -153,11 +129,7 @@ TEST_CASE( "Simple incoming request" , "[chunked-input][simple]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:3;"
-						"[0,6;ext:nullptr]"
-						"[6,1;ext:nullptr]"
-						"[7,6;ext:nullptr];"
-						"trailing_fields:0;") );
+						"chunks:3;[0,6][6,1][7,6];trailing_fields:0;") );
 	}
 
 	SECTION( "three chunks with trailing headers" )
@@ -187,11 +159,7 @@ TEST_CASE( "Simple incoming request" , "[chunked-input][simple]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:3;"
-						"[0,6;ext:nullptr]"
-						"[6,1;ext:nullptr]"
-						"[7,6;ext:nullptr];"
-						"trailing_fields:2;"
+						"chunks:3;[0,6][6,1][7,6];trailing_fields:2;"
 						"('Header-1':'Value-1')('Header-2':'Value-2')" ) );
 	}
 
@@ -221,41 +189,8 @@ TEST_CASE( "Simple incoming request" , "[chunked-input][simple]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:3;"
-						"[0,6;ext:nullptr]"
-						"[6,1;ext:nullptr]"
-						"[7,6;ext:nullptr];"
-						"trailing_fields:1;"
+						"chunks:3;[0,6][6,1][7,6];trailing_fields:1;"
 						"('Header-1':'')" ) );
-	}
-
-	SECTION( "two chunks with ext" )
-	{
-		std::string request{
-			"POST /data HTTP/1.0\r\n"
-			"From: unit-test\r\n"
-			"User-Agent: unit-test\r\n"
-			"Content-Type: text/plain\r\n"
-			"Transfer-Encoding: chunked\r\n"
-			"Connection: close\r\n"
-			"\r\n"
-			"6;novalue_field;f1=v1\r\n"
-			"Hello,\r\n"
-			"1;f=\" \\\\1 \\\"2\\\" 3 ! \";a;b\r\n"
-			" \r\n"
-			"0\r\n"
-			"\r\n"
-		};
-
-		std::string response;
-		REQUIRE_NOTHROW( response = do_request( request ) );
-
-		REQUIRE_THAT( response,
-				Catch::Matchers::EndsWith(
-						"chunks:2;"
-						"[0,6;ext:('novalue_field',''),('f1','v1')]"
-						"[6,1;ext:('f','\" \\\\1 \\\"2\\\" 3 ! \"'),('a',''),('b','')];"
-						"trailing_fields:0;" ) );
 	}
 
 	SECTION( "two chunks with chunk-ext" )
@@ -268,7 +203,7 @@ TEST_CASE( "Simple incoming request" , "[chunked-input][simple]" )
 			"Transfer-Encoding: chunked\r\n"
 			"Connection: close\r\n"
 			"\r\n"
-			"6;a=b;c;d=e;xxx=yyy\r\n"
+			"6;a=b;c;d=e\r\n"
 			"Hello,\r\n"
 			"6;b=d;c=e\r\n"
 			"World!\r\n"
@@ -281,10 +216,7 @@ TEST_CASE( "Simple incoming request" , "[chunked-input][simple]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:2;"
-						"[0,6;ext:('a','b'),('c',''),('d','e'),('xxx','yyy')]"
-						"[6,6;ext:('b','d'),('c','e')];"
-						"trailing_fields:0;") );
+						"chunks:2;[0,6][6,6];trailing_fields:0;") );
 	}
 
 	other_thread.stop_and_join();
@@ -369,11 +301,7 @@ TEST_CASE( "Limit violations" , "[chunked-input][simple][limits]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:3;"
-						"[0,6;ext:nullptr]"
-						"[6,1;ext:nullptr]"
-						"[7,6;ext:nullptr];"
-						"trailing_fields:0;") );
+						"chunks:3;[0,6][6,1][7,6];trailing_fields:0;") );
 	}
 	SECTION( "too many leading fields" )
 	{
@@ -447,11 +375,7 @@ TEST_CASE( "Limit violations" , "[chunked-input][simple][limits]" )
 
 		REQUIRE_THAT( response,
 				Catch::Matchers::EndsWith(
-						"chunks:3;"
-						"[0,6;ext:nullptr]"
-						"[6,1;ext:nullptr]"
-						"[7,6;ext:nullptr];"
-						"trailing_fields:11;"
+						"chunks:3;[0,6][6,1][7,6];trailing_fields:11;"
 						"('Header-01':'Value')('Header-02':'Value')"
 						"('Header-03':'Value')('Header-04':'Value')"
 						"('Header-05':'Value')('Header-06':'Value')"

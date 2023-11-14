@@ -6,11 +6,11 @@
 	Tests for express router (PCRE2).
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <iterator>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/router/pcre2_regex_engine.hpp>
 
 using namespace restinio;

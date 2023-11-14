@@ -62,7 +62,7 @@ public:
 		:	m_value{ value }
 	{}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	constexpr Scalar
 	value() const noexcept { return m_value; }
 };

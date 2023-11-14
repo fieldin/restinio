@@ -1,29 +1,19 @@
-# Fieldin Restinio Fork
-RESTinio was forked at 14/11/23 and rebased to the first commit from the 8/11/23. This was done to stabilise the structure of the Core-Feed-Processor and it's dependencies with RESTinio being the main external one.
-
 # What Is RESTinio?
 
-RESTinio is a C++17 library that gives you an embedded
+RESTinio is a header-only C++14 library that gives you an embedded
 HTTP/Websocket server. It is based on standalone version of ASIO
 and targeted primarily for asynchronous processing of HTTP-requests.
 Since v.0.4.1 Boost::ASIO (1.66 or higher) is also supported
 (see [notes on building with Boost::ASIO](https://stiffstream.com/en/docs/restinio/0.6/obtaining.html#notes-on-building-with-boost-asio)).
 
-RESTinio itself is a header-only library, but it depends on [nodejs/llhttp](https://github.com/nodejs/llhttp)
-that is not header-only.
-
-Currently *RESTinio* is in rather stable state and we think that since v.0.4.0
-it is ready for production use.
-
 # A Very Basic Example Of RESTinio
 
 Consider the task of writing a C++ application that must support some REST API,
-RESTinio represents our solution for that task.
-
+RESTinio represents our solution for that task. Currently it is in stable beta state.
 Lets see how it feels like in the simplest case:
 
 ```C++
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 int main()
 {
     restinio::run(
@@ -70,7 +60,7 @@ so you can apply a complex logic for handling requests.
 # Enhanced Example With Express Router
 
 ```C++
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 using namespace restinio;
 

@@ -29,31 +29,67 @@ namespace impl
 {
 
 template< typename T >
-using index_sequence_for_tuple =
+using index_sequence_for_tuple = 
 		std::make_index_sequence< std::tuple_size<T>::value >;
 
+template< typename Predicate >
+RESTINIO_NODISCARD
+bool
+all_of_impl( Predicate && /*p*/ )
+{
+	return true;
+}
+
+template< typename Predicate, typename T, typename... Vs >
+RESTINIO_NODISCARD
+bool
+all_of_impl( Predicate && p, T && current, Vs &&... rest )
+{
+	return p( std::forward<T>(current) ) &&
+			all_of_impl( std::forward<Predicate>(p), std::forward<Vs>(rest)... );
+}
+
 template< typename Predicate, typename Tuple, std::size_t... I >
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool
 perform_all_of(
 	Predicate && p,
 	Tuple && t,
 	std::index_sequence<I...> )
 {
-	// Use fold expression after switching to C++17.
-	return (p( std::get<I>(std::forward<Tuple>(t)) ) && ...);
+	return all_of_impl(
+			std::forward<Predicate>(p),
+			std::get<I>(std::forward<Tuple>(t))... );
+}
+
+template< typename Predicate >
+RESTINIO_NODISCARD
+bool
+any_of_impl( Predicate && /*p*/ )
+{
+	return false;
+}
+
+template< typename Predicate, typename T, typename... Vs >
+RESTINIO_NODISCARD
+bool
+any_of_impl( Predicate && p, T && current, Vs &&... rest )
+{
+	return p( std::forward<T>(current) ) ||
+			any_of_impl( std::forward<Predicate>(p), std::forward<Vs>(rest)... );
 }
 
 template< typename Predicate, typename Tuple, std::size_t... I >
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool
 perform_any_of(
 	Predicate && p,
 	Tuple && t,
 	std::index_sequence<I...> )
 {
-	// Use fold expression after switching to C++17.
-	return (p( std::get<I>(std::forward<Tuple>(t)) ) || ...);
+	return any_of_impl(
+			std::forward<Predicate>(p),
+			std::get<I>(std::forward<Tuple>(t))... );
 }
 
 } /* namespace impl */
@@ -62,7 +98,7 @@ perform_any_of(
 // all_of
 //
 template< typename Tuple, typename Predicate >
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool
 all_of( Tuple && tuple, Predicate && predicate )
 {
@@ -76,7 +112,7 @@ all_of( Tuple && tuple, Predicate && predicate )
 // any_of
 //
 template< typename Tuple, typename Predicate >
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool
 any_of( Tuple && tuple, Predicate && predicate )
 {

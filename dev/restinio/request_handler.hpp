@@ -19,7 +19,6 @@
 #include <array>
 #include <functional>
 #include <iosfwd>
-#include <new>
 
 namespace restinio
 {
@@ -58,7 +57,7 @@ class extra_data_buffer_t
 public:
 	extra_data_buffer_t( void * buffer ) : m_buffer{ buffer } {}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	void *
 	get() const noexcept { return m_buffer; }
 };
@@ -169,23 +168,23 @@ public:
 		get_ptr()->~Extra_Data();
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	Extra_Data *
 	get_ptr() noexcept
 	{
 		// Because the content of m_data.data() is rewritten by
 		// placement new we have to use std::launder to avoid UB.
-		return std::launder(
+		return RESTINIO_STD_LAUNDER(
 				reinterpret_cast<Extra_Data *>(m_data.data()) );
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	const Extra_Data *
 	get_ptr() const noexcept
 	{
 		// Because the content of m_data.data() is rewritten by
 		// placement new we have to use std::launder to avoid UB.
-		return std::launder(
+		return RESTINIO_STD_LAUNDER(
 				reinterpret_cast<const Extra_Data *>(m_data.data()) );
 	}
 };
@@ -345,7 +344,7 @@ class generic_request_t final
 		 *
 		 * @since v.0.6.13
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		Extra_Data &
 		extra_data() noexcept
 		{
@@ -391,7 +390,7 @@ class generic_request_t final
 		 *
 		 * @since v.0.6.13
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		const Extra_Data &
 		extra_data() const noexcept
 		{

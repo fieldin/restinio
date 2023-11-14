@@ -81,7 +81,7 @@ class target_path_holder_t
 		 * @attention
 		 * This method should not be called after a call to giveout_data().
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		string_view_t
 		view() const noexcept
 		{
@@ -94,7 +94,7 @@ class target_path_holder_t
 		 * The holder becomes empty after the return from that method and
 		 * should not be used anymore.
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		data_t
 		giveout_data() noexcept
 		{

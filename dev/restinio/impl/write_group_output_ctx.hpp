@@ -8,16 +8,16 @@
 
 #pragma once
 
+#include <vector>
+
 #include <restinio/asio_include.hpp>
 
 #include <restinio/buffers.hpp>
+#include <restinio/optional.hpp>
+#include <restinio/variant.hpp>
 #include <restinio/impl/sendfile_operation.hpp>
 
 #include <restinio/compiler_features.hpp>
-
-#include <optional>
-#include <variant>
-#include <vector>
 
 namespace restinio
 {
@@ -48,17 +48,17 @@ using asio_bufs_container_t = std::vector< asio_ns::const_buffer >;
 	      // Extract next solid output piece.
 	      auto wo = output_ctx.extract_next_write_operation();
 	      // Are we done with consuming a given write_group_t instance?
-	      !std::holds_alternative< none_write_operation_t >( wo );
+	      !holds_alternative< none_write_operation_t >( wo );
 	      // Get next output piece.
 	      wo = output_ctx.extract_next_write_operation() )
 	    {
-	      if( std::holds_alternative< trivial_write_operation_t >( wo ) )
+	      if( holds_alternative< trivial_write_operation_t >( wo ) )
 	      {
-	        handle_trivial_bufs( std::get< trivial_write_operation_t >( wo ) );
+	        handle_trivial_bufs( get< trivial_write_operation_t >( wo ) );
 	      }
 	      else
 	      {
-	        handle_sendfile( std::get< file_write_operation_t >( wo ) );
+	        handle_sendfile( get< file_write_operation_t >( wo ) );
 	      }
 	    }
 
@@ -236,14 +236,14 @@ class write_group_output_ctx_t
 
 		//! Start handlong next write group.
 		void
-		start_next_write_group( std::optional< write_group_t > next_wg ) noexcept
+		start_next_write_group( optional_t< write_group_t > next_wg ) noexcept
 		{
 			m_current_wg = std::move( next_wg );
 		}
 
 		//! An alias for variant holding write operation specifics.
 		using solid_write_operation_variant_t =
-			std::variant<
+			variant_t<
 				none_write_operation_t,
 				trivial_write_operation_t,
 				file_write_operation_t >;
@@ -366,7 +366,7 @@ class write_group_output_ctx_t
 		}
 
 		//! Real buffers with data.
-		std::optional< write_group_t > m_current_wg;
+		optional_t< write_group_t > m_current_wg;
 
 		//! Keeps track of the next writable item stored in m_current_wg.
 		/*!

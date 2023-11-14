@@ -13,9 +13,8 @@
 
 #include <restinio/compiler_features.hpp>
 #include <restinio/common_types.hpp>
+#include <restinio/variant.hpp>
 #include <restinio/tls_fwd.hpp>
-
-#include <variant>
 
 namespace restinio
 {
@@ -57,7 +56,7 @@ public:
 	 * \retval true if the accepted connection is a TLS-connection.
 	 * \retval false if the accepted connection doesn't use TLS.
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	is_tls_connection() const noexcept { return nullptr != m_tls_socket; }
 
@@ -86,7 +85,7 @@ public:
 	 * void some_state_listener_t::state_changed(
 	 * 	const restinio::connection_state::notice_t & notice) {
 	 * 	...
-	 * 	std::visit(my_cause_visitor_t{...}, notice.cause());
+	 * 	restinio::visit(my_cause_visitor_t{...}, notice.cause());
 	 * }
 	 * \endcode
 	 */
@@ -122,7 +121,7 @@ public:
 	 * void some_state_listener_t::state_changed(
 	 * 	const restinio::connection_state::notice_t & notice) {
 	 * 	...
-	 * 	std::visit(my_cause_visitor_t{...}, notice.cause());
+	 * 	restinio::visit(my_cause_visitor_t{...}, notice.cause());
 	 * }
 	 * \endcode
 	 */
@@ -163,7 +162,7 @@ public:
 	 * void some_state_listener_t::state_changed(
 	 * 	const restinio::connection_state::notice_t & notice) {
 	 * 	...
-	 * 	std::visit(my_cause_visitor_t{...}, notice.cause());
+	 * 	restinio::visit(my_cause_visitor_t{...}, notice.cause());
 	 * }
 	 * \endcode
 	 */
@@ -204,9 +203,13 @@ class upgraded_to_websocket_t final
  * all tools from the C++ standard library (like `std::holds_alternative`,
  * `std::get`, `std::get_if`, `std::visit`) can be used.
  *
+ * But for C++14 a version of those tools from restinio namespace should
+ * be used (e.g. `restinio::holds_alternative`, `restinio::get`,
+ * `restinio::get_if`, `restinio::visit`).
+ *
  * @since v.0.6.0
  */
-using cause_t = std::variant< accepted_t, closed_t, upgraded_to_websocket_t >;
+using cause_t = variant_t< accepted_t, closed_t, upgraded_to_websocket_t >;
 
 /*!
  * @brief An object with info about connection to be passed to state listener.
@@ -236,12 +239,12 @@ public :
 	{}
 
 	//! Get the connection id.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	connection_id_t
 	connection_id() const noexcept { return m_conn_id; }
 
 	//! Get the remote endpoint for the connection.
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	endpoint_t
 	remote_endpoint() const noexcept { return m_remote_endpoint; }
 
@@ -251,7 +254,7 @@ public :
 	 * Since v.0.6.0 the type cause_t is a variant, not a simple
 	 * enumeration as in v.0.5.
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	cause_t
 	cause() const noexcept { return m_cause; }
 };

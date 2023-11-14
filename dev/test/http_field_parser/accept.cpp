@@ -3,7 +3,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/http_field_parsers/accept.hpp>
 
@@ -123,7 +123,7 @@ TEST_CASE( "Accept", "[media-type][accept]" )
 			REQUIRE( qvalue_t{ qvalue_t::untrusted{500} } == *item.weight );
 
 			accept_value_t::item_t::accept_ext_container_t expected{
-				{ "signed"s, std::nullopt },
+				{ "signed"s, restinio::nullopt },
 				{ "signature-method"s, "sha512"s }
 			};
 			REQUIRE( expected == item.accept_params );

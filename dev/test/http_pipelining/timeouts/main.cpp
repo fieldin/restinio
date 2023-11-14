@@ -10,9 +10,9 @@
 #include <cctype>
 #include <sstream>
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <test/common/utest_logger.hpp>
 #include <test/common/pub.hpp>

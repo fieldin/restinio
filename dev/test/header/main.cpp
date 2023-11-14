@@ -6,12 +6,12 @@
 	Tests for header objects.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <iterator>
 #include <set>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 using namespace restinio;
 
@@ -925,7 +925,7 @@ TEST_CASE( "working with string_to_field()" , "[header][string_to_field]" )
 
 TEST_CASE( "Connection" , "[header][connection]" )
 {
-	using namespace Catch::Matchers;
+	using namespace Catch;
 
 	{
 		// Default.
@@ -936,8 +936,8 @@ TEST_CASE( "Connection" , "[header][connection]" )
 
 		REQUIRE_THAT(
 			serialized,
-			ContainsSubstring( "Connection: close" ) ||
-			!ContainsSubstring( "Content-Length" ) );
+			Contains( "Connection: close" ) ||
+			!Contains( "Content-Length" ) );
 	}
 	{
 		// Default.
@@ -947,8 +947,8 @@ TEST_CASE( "Connection" , "[header][connection]" )
 
 		REQUIRE_THAT(
 			serialized,
-			ContainsSubstring( "Connection: close" ) ||
-			ContainsSubstring( "Content-Length: 0" ) );
+			Contains( "Connection: close" ) ||
+			Contains( "Content-Length: 0" ) );
 	}
 
 	{
@@ -959,7 +959,7 @@ TEST_CASE( "Connection" , "[header][connection]" )
 
 		REQUIRE_THAT(
 			serialized,
-			ContainsSubstring( "Connection: close" ) );
+			Contains( "Connection: close" ) );
 	}
 
 	{
@@ -970,7 +970,7 @@ TEST_CASE( "Connection" , "[header][connection]" )
 
 		REQUIRE_THAT(
 			serialized,
-			ContainsSubstring( "Connection: keep-alive" ) );
+			Contains( "Connection: keep-alive" ) );
 	}
 
 	{
@@ -981,7 +981,7 @@ TEST_CASE( "Connection" , "[header][connection]" )
 
 		REQUIRE_THAT(
 			serialized,
-			ContainsSubstring( "Connection: Upgrade" ) );
+			Contains( "Connection: Upgrade" ) );
 	}
 }
 

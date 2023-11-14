@@ -13,7 +13,7 @@
 
 #include <restinio/helpers/http_field_parsers/basics.hpp>
 
-#include <variant>
+#include <restinio/variant.hpp>
 
 namespace restinio
 {
@@ -48,7 +48,7 @@ struct user_agent_value_t
 	struct product_t
 	{
 		std::string product;
-		std::optional<std::string> product_version;
+		restinio::optional_t<std::string> product_version;
 	};
 
 	/*!
@@ -56,7 +56,7 @@ struct user_agent_value_t
 	 *
 	 * @since v.0.6.4
 	 */
-	using tail_item_t = std::variant< product_t, std::string >;
+	using tail_item_t = restinio::variant_t< product_t, std::string >;
 
 	product_t product;
 	std::vector< tail_item_t > tail;
@@ -66,7 +66,7 @@ struct user_agent_value_t
 	 *
 	 * @since v.0.6.4
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -98,7 +98,7 @@ struct user_agent_value_t
 	 *
 	 * @since v.0.6.4
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t< user_agent_value_t, restinio::easy_parser::parse_error_t >
 	try_parse( string_view_t what )
 	{

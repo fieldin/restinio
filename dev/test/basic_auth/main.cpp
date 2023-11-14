@@ -2,7 +2,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/http_field_parsers/basic_auth.hpp>
 #include <restinio/helpers/http_field_parsers/try_parse_field.hpp>
@@ -11,7 +11,7 @@
 
 using namespace std::string_literals;
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 make_dummy_endpoint()
 {
@@ -339,7 +339,7 @@ TEST_CASE( "Extract from parsed authorization_value_t "
 			restinio::http_field::authorization );
 
 	REQUIRE( 0 == field_parse_result.index() );
-	const auto & auth = std::get< authorization_value_t >(
+	const auto & auth = restinio::get< authorization_value_t >(
 			field_parse_result );
 	REQUIRE( "basic" == auth.auth_scheme );
 
@@ -379,7 +379,7 @@ TEST_CASE( "Extract from parsed authorization_value_t "
 			"x-my-authorization" );
 
 	REQUIRE( 0 == field_parse_result.index() );
-	const auto & auth = std::get< authorization_value_t >(
+	const auto & auth = restinio::get< authorization_value_t >(
 			field_parse_result );
 	REQUIRE( "basic" == auth.auth_scheme );
 

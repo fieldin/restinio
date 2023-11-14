@@ -11,6 +11,8 @@
 #include <restinio/router/impl/target_path_holder.hpp>
 #include <restinio/router/non_matched_request_handler.hpp>
 
+#include <restinio/optional.hpp>
+
 #include <restinio/path2regex/path2regex.hpp>
 
 #include <restinio/router/std_regex_engine.hpp>
@@ -20,7 +22,6 @@
 #include <restinio/utils/percent_encoding.hpp>
 
 #include <map>
-#include <optional>
 #include <vector>
 
 namespace restinio
@@ -107,14 +108,14 @@ class route_params_t final
 
 		//! Get the value of a parameter if it exists.
 		//! @since v.0.4.4
-		std::optional< string_view_t >
+		optional_t< string_view_t >
 		get_param( string_view_t key ) const noexcept
 		{
 			const auto it = find_named_parameter( key );
 
 			return m_named_parameters.end() != it ?
-				std::optional< string_view_t >{ it->second } :
-				std::optional< string_view_t >{ std::nullopt };
+				optional_t< string_view_t >{ it->second } :
+				optional_t< string_view_t >{ nullopt };
 		}
 
 		//! Get indexed parameter.
@@ -542,7 +543,7 @@ class generic_express_route_entry_t
 
 		//! Checks if request header matches entry,
 		//! and if so, set route params.
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		bool
 		match(
 			const http_request_header_t & h,
@@ -553,7 +554,7 @@ class generic_express_route_entry_t
 		}
 
 		//! Calls a handler of given request with given params.
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		request_handling_status_t
 		handle( actual_request_handle_t rh, route_params_t rp ) const
 		{
@@ -629,7 +630,7 @@ class generic_express_router_t
 		generic_express_router_t() = default;
 		generic_express_router_t( generic_express_router_t && ) = default;
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		request_handling_status_t
 		operator()( actual_request_handle_t req ) const
 		{
@@ -852,7 +853,7 @@ template < typename Value_Type >
 Value_Type
 get( const router::route_params_t & params, string_view_t key )
 {
-	return std::get< Value_Type >( params[ key ] );
+	return get< Value_Type >( params[ key ] );
 }
 
 //! Cast indexed parameter value to a given type.
@@ -860,7 +861,7 @@ template < typename Value_Type >
 Value_Type
 get( const router::route_params_t & params, std::size_t index )
 {
-	return std::get< Value_Type >( params[ index ] );
+	return get< Value_Type >( params[ index ] );
 }
 
 } /* namespace restinio */

@@ -215,28 +215,28 @@ public :
 	}
 };
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline bool
 operator==( const qvalue_t & a, const qvalue_t & b ) noexcept
 {
 	return a.as_uint() == b.as_uint();
 }
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline bool
 operator!=( const qvalue_t & a, const qvalue_t & b ) noexcept
 {
 	return a.as_uint() != b.as_uint();
 }
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline bool
 operator<( const qvalue_t & a, const qvalue_t & b ) noexcept
 {
 	return a.as_uint() < b.as_uint();
 }
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline bool
 operator<=( const qvalue_t & a, const qvalue_t & b ) noexcept
 {
@@ -258,7 +258,7 @@ using namespace restinio::easy_parser::impl;
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline constexpr bool
 is_alpha( const char ch ) noexcept
 {
@@ -277,7 +277,7 @@ is_alpha( const char ch ) noexcept
  */
 struct is_alpha_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -296,7 +296,7 @@ struct is_alpha_predicate_t
  */
 struct is_alphanum_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -314,7 +314,7 @@ struct is_alphanum_predicate_t
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline constexpr bool
 is_vchar( const char ch ) noexcept
 {
@@ -332,7 +332,7 @@ is_vchar( const char ch ) noexcept
  */
 struct is_vchar_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -350,7 +350,7 @@ struct is_vchar_predicate_t
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline constexpr bool
 is_obs_text( const char ch ) noexcept
 {
@@ -373,7 +373,7 @@ is_obs_text( const char ch ) noexcept
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline constexpr bool
 is_qdtext( const char ch ) noexcept
 {
@@ -395,7 +395,7 @@ is_qdtext( const char ch ) noexcept
  *
  * @since v.0.6.4
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline constexpr bool
 is_ctext( const char ch ) noexcept
 {
@@ -418,7 +418,7 @@ is_ctext( const char ch ) noexcept
  */
 struct is_ctext_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -435,7 +435,7 @@ struct is_ctext_predicate_t
  */
 struct is_token_char_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr bool
 	is_token_char( const char ch ) noexcept
 	{
@@ -457,7 +457,7 @@ struct is_token_char_predicate_t
 				ch == '~';
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -472,16 +472,16 @@ struct is_token_char_predicate_t
  * @brief A producer for OWS.
  *
  * If an OWS found in the input stream it produces non-empty
- * std::optional<char> with SP as the value.
+ * optional_t<char> with SP as the value.
  *
  * See: https://tools.ietf.org/html/rfc7230
  *
  * @since v.0.6.1
  */
-class ows_producer_t : public producer_tag< std::optional<char> >
+class ows_producer_t : public producer_tag< restinio::optional_t<char> >
 {
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse(
 		source_t & from ) const noexcept
@@ -502,7 +502,7 @@ public :
 		if( extracted_spaces > 0u )
 			return result_type{ ' ' };
 
-		return result_type{ std::nullopt };
+		return result_type{ nullopt };
 	}
 };
 
@@ -521,8 +521,8 @@ public :
  */
 class token_producer_t : public producer_tag< std::string >
 {
-	[[nodiscard]]
-	static std::optional< parse_error_t >
+	RESTINIO_NODISCARD
+	static optional_t< parse_error_t >
 	try_parse_value( source_t & from, std::string & accumulator )
 	{
 		error_reason_t reason = error_reason_t::pattern_not_found;
@@ -552,10 +552,10 @@ class token_producer_t : public producer_tag< std::string >
 			return parse_error_t{ from.current_position(), reason };
 		}
 
-		return std::nullopt;
+		return nullopt;
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr bool
 	is_token_char( const char ch ) noexcept
 	{
@@ -563,7 +563,7 @@ class token_producer_t : public producer_tag< std::string >
 	}
 
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from ) const
 	{
@@ -591,8 +591,8 @@ public :
  */
 class quoted_string_producer_t : public producer_tag< std::string >
 {
-	[[nodiscard]]
-	static std::optional< parse_error_t >
+	RESTINIO_NODISCARD
+	static optional_t< parse_error_t >
 	try_parse_value( source_t & from, std::string & accumulator )
 	{
 		error_reason_t reason = error_reason_t::pattern_not_found;
@@ -644,11 +644,11 @@ class quoted_string_producer_t : public producer_tag< std::string >
 		if( !second_quote_extracted )
 			return parse_error_t{ from.current_position(), reason };
 		else
-			return std::nullopt;
+			return nullopt;
 	}
 
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from ) const
 	{
@@ -701,7 +701,7 @@ public :
 class quoted_pair_producer_t : public producer_tag< char >
 {
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from ) const
 	{
@@ -762,7 +762,7 @@ quoted-pair    = "\" ( HTAB / SP / VCHAR / obs-text )
 class comment_producer_t : public producer_tag< std::string >
 {
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from ) const; // NOTE: implementation below.
 };
@@ -783,7 +783,7 @@ public :
  *
  * @since v.0.6.2
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 alpha_symbol_p()
 {
@@ -805,7 +805,7 @@ alpha_symbol_p()
  *
  * @since v.0.6.2
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 alphanum_symbol_p()
 {
@@ -827,7 +827,7 @@ alphanum_symbol_p()
  *
  * @since v.0.6.2
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 vchar_symbol_p()
 {
@@ -849,7 +849,7 @@ vchar_symbol_p()
  *
  * @since v.0.6.4
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 ctext_symbol_p()
 {
@@ -875,7 +875,7 @@ ctext_symbol_p()
  *
  * @since v.0.6.4
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 comment_p()
 {
@@ -904,7 +904,7 @@ comment_p()
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 ows_p() noexcept { return impl::ows_producer_t{}; }
 
@@ -934,7 +934,7 @@ ows_p() noexcept { return impl::ows_producer_t{}; }
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 ows() noexcept { return ows_p() >> skip(); }
 
@@ -952,7 +952,7 @@ ows() noexcept { return ows_p() >> skip(); }
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 token_symbol_p() noexcept
 {
@@ -980,7 +980,7 @@ token_symbol_p() noexcept
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 token_p() noexcept { return impl::token_producer_t{}; }
 
@@ -1007,7 +1007,7 @@ token_p() noexcept { return impl::token_producer_t{}; }
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 quoted_string_p() noexcept
 {
@@ -1033,7 +1033,7 @@ quoted_string_p() noexcept
  *
  * @since v.0.6.4
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 quoted_pair_p() noexcept
 {
@@ -1068,7 +1068,7 @@ quoted_pair_p() noexcept
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 expected_token_p( string_view_t token )
 {
@@ -1107,7 +1107,7 @@ expected_token_p( string_view_t token )
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 expected_caseless_token_p( string_view_t token )
 {
@@ -1122,7 +1122,7 @@ namespace impl
 //
 // comment_producer_t implementation
 //
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< comment_producer_t::result_type, parse_error_t >
 comment_producer_t::try_parse( source_t & from ) const
 {
@@ -1188,7 +1188,7 @@ class qvalue_producer_t
 	};
 
 public :
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from ) const noexcept
 	{
@@ -1245,7 +1245,7 @@ public :
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 qvalue_p() noexcept
 {
@@ -1272,7 +1272,7 @@ qvalue_p() noexcept
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 weight_p() noexcept
 {
@@ -1329,7 +1329,7 @@ public :
 		:	m_element{ std::move(element) }
 	{}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from )
 	{
@@ -1393,7 +1393,7 @@ public :
 		:	m_element{ std::move(element) }
 	{}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< result_type, parse_error_t >
 	try_parse( source_t & from )
 	{
@@ -1452,7 +1452,7 @@ public :
 template<
 	typename Container,
 	typename Element_Producer >
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 non_empty_comma_separated_list_p( Element_Producer element )
 {
@@ -1498,7 +1498,7 @@ non_empty_comma_separated_list_p( Element_Producer element )
 template<
 	typename Container,
 	typename Element_Producer >
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 maybe_empty_comma_separated_list_p( Element_Producer element )
 {
@@ -1563,7 +1563,7 @@ struct not_found_t {};
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline expected_t< string_view_t, not_found_t >
 find_first(
 	const parameter_with_mandatory_value_container_t & where,
@@ -1594,7 +1594,7 @@ namespace params_with_value_producer_details
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 make_parser()
 {
@@ -1641,7 +1641,7 @@ class params_with_value_producer_t
 public :
 	params_with_value_producer_t() = default;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	auto
 	try_parse( source_t & from )
 	{
@@ -1680,7 +1680,7 @@ T := *( OWS ';' OWS token '=' OWS (token / quoted_string))
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline impl::params_with_value_producer_t
 params_with_value_p() { return {}; }
 
@@ -1693,7 +1693,7 @@ params_with_value_p() { return {}; }
  * @since v.0.6.1
  */
 using parameter_with_optional_value_t =
-		std::pair< std::string, std::optional<std::string> >;
+		std::pair< std::string, restinio::optional_t<std::string> >;
 
 //
 // parameter_with_optional_value_container_t
@@ -1733,8 +1733,8 @@ using parameter_with_optional_value_container_t =
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
-inline expected_t< std::optional<string_view_t>, not_found_t >
+RESTINIO_NODISCARD
+inline expected_t< restinio::optional_t<string_view_t>, not_found_t >
 find_first(
 	const parameter_with_optional_value_container_t & where,
 	string_view_t what )
@@ -1749,7 +1749,7 @@ find_first(
 		if( opt )
 			return string_view_t{ *opt };
 		else
-			return std::optional< string_view_t >{ std::nullopt };
+			return restinio::optional_t< string_view_t >{ nullopt };
 	}
 	else
 		return make_unexpected( not_found_t{} );
@@ -1770,7 +1770,7 @@ namespace params_with_opt_value_producer_details
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 make_parser()
 {
@@ -1819,7 +1819,7 @@ class params_with_opt_value_producer_t
 public :
 	params_with_opt_value_producer_t() = default;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	auto
 	try_parse( source_t & from )
 	{
@@ -1858,7 +1858,7 @@ T := *( OWS ';' OWS token ['=' OWS (token / quoted_string)] )
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline impl::params_with_opt_value_producer_t
 params_with_opt_value_p() { return {}; }
 

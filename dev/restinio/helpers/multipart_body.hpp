@@ -67,7 +67,7 @@ namespace multipart_body
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline std::vector< string_view_t >
 split_multipart_body(
 	string_view_t body,
@@ -183,7 +183,7 @@ constexpr char LF = '\n';
 struct body_producer_t
 	:	public easy_parser::impl::producer_tag< string_view_t >
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< string_view_t, easy_parser::parse_error_t >
 	try_parse( easy_parser::impl::source_t & from ) const noexcept
 	{
@@ -207,7 +207,7 @@ struct body_producer_t
 struct field_value_producer_t
 	:	public easy_parser::impl::producer_tag< std::string >
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	expected_t< std::string, easy_parser::parse_error_t >
 	try_parse( easy_parser::impl::source_t & from ) const
 	{
@@ -249,7 +249,7 @@ part := *( token ':' OWS field-value CR LF ) CR LF body
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 make_parser()
 {
@@ -310,7 +310,7 @@ make_parser()
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 expected_t< parsed_part_t, restinio::easy_parser::parse_error_t >
 try_parse_part( string_view_t part )
 {
@@ -398,7 +398,7 @@ namespace boundary_value_checkers
 // bcharsnospace :=  DIGIT / ALPHA / "'" / "(" / ")" / "+" /"_"
 //                 / "," / "-" / "." / "/" / ":" / "=" / "?"
 //
-[[nodiscard]]
+RESTINIO_NODISCARD
 constexpr bool
 is_bcharnospace( char ch )
 {
@@ -418,7 +418,7 @@ is_bcharnospace( char ch )
 		|| ch == '?';
 }
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 constexpr bool
 is_bchar( char ch )
 {
@@ -452,8 +452,8 @@ is_bchar( char ch )
  *
  * @since v.0.6.1
  */
-[[nodiscard]]
-inline std::optional< enumeration_error_t >
+RESTINIO_NODISCARD
+inline optional_t< enumeration_error_t >
 check_boundary_value( string_view_t value )
 {
 	using namespace impl::boundary_value_checkers;
@@ -471,7 +471,7 @@ check_boundary_value( string_view_t value )
 	else
 		return enumeration_error_t::illegal_boundary_value;
 
-	return std::nullopt;
+	return nullopt;
 }
 
 //
@@ -492,12 +492,12 @@ check_boundary_value( string_view_t value )
  * @since v.0.6.1
  */
 template< typename Extra_Data >
-[[nodiscard]]
+RESTINIO_NODISCARD
 expected_t< std::string, enumeration_error_t >
 detect_boundary_for_multipart_body(
 	const generic_request_t< Extra_Data > & req,
 	string_view_t expected_media_type,
-	std::optional< string_view_t > expected_media_subtype )
+	optional_t< string_view_t > expected_media_subtype )
 {
 	namespace hfp = restinio::http_field_parsers;
 	using restinio::impl::is_equal_caseless;
@@ -565,14 +565,14 @@ namespace impl
  * @since v.0.6.1
  */
 template< typename Handler >
-[[nodiscard]]
+RESTINIO_NODISCARD
 expected_t< std::size_t, enumeration_error_t >
 enumerate_parts_of_request_body(
 	const std::vector< string_view_t > & parts,
 	Handler && handler )
 {
 	std::size_t parts_processed{ 0u };
-	std::optional< enumeration_error_t > error;
+	optional_t< enumeration_error_t > error;
 
 	for( auto current_part : parts )
 	{
@@ -681,7 +681,7 @@ struct valid_handler_type<
  * @since v.0.6.1
  */
 template< typename User_Type, typename Handler >
-[[nodiscard]]
+RESTINIO_NODISCARD
 expected_t< std::size_t, enumeration_error_t >
 enumerate_parts(
 	//! The request to be handled.
@@ -701,7 +701,7 @@ enumerate_parts(
 	//!
 	//! @note
 	//! The special value '*' is not handled here.
-	std::optional< string_view_t > expected_media_subtype = std::nullopt )
+	optional_t< string_view_t > expected_media_subtype = nullopt )
 {
 	static_assert(
 			impl::valid_handler_type< std::decay_t<Handler> >::value,

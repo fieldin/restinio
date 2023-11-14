@@ -1,6 +1,6 @@
 #pragma once
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 class dummy_connection_t : public restinio::impl::connection_base_t
 {
@@ -19,7 +19,7 @@ public:
 		std::shared_ptr< restinio::tcp_connection_ctx_base_t > & /*self*/ ) override
 	{ /* Nothing to do! */ }
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make( restinio::connection_id_t id )
 	{

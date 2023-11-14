@@ -75,7 +75,7 @@ namespace sync_chain
  * An instance of `fixed_size_chain_t` can also be created manually and
  * passed to server's settings by `unique_ptr`:
  * @code
- * auto chain = std::make_unique<restinio::sync_chain::fixed_size_chain_t<3>>(
+ * auto chain = std::make_unique<restinio::fixed_size_chain_t<3>>(
  * 	headers_checker, authentificator, actual_handler);
  * ...
  * restinio::run(
@@ -171,21 +171,25 @@ class fixed_size_chain_t
 
 	std::array< handler_holder_t, Size > m_handlers;
 
+	template< std::size_t >
+	void
+	store_to() noexcept {}
+
 	template<
+		std::size_t Index,
 		typename Head,
 		typename... Tail >
 	void
-	store_to( std::size_t index, Head && head, Tail && ...tail )
+	store_to( Head && head, Tail && ...tail )
 	{
-		m_handlers[ index ] =
+		m_handlers[ Index ] =
 			[handler = std::move(head)]
 			( const actual_request_handle_t & req ) -> request_handling_status_t
 			{
 				return handler( req );
 			};
 
-		if constexpr( 0u != sizeof...(tail) )
-			store_to( index + 1u, std::forward<Tail>(tail)... );
+		store_to< Index + 1u >( std::forward<Tail>(tail)... );
 	}
 
 public:
@@ -211,10 +215,10 @@ public:
 				"Wrong number of parameters for the constructor of "
 				"fixed_size_chain_t<Size>. Exact `Size` parameters expected" );
 
-		store_to( 0u, std::forward<Handlers>(handlers)... );
+		store_to< 0u >( std::forward<Handlers>(handlers)... );
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	request_handling_status_t
 	operator()( const actual_request_handle_t & req ) const
 	{

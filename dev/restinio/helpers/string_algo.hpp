@@ -20,7 +20,7 @@ namespace restinio
 namespace string_algo
 {
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool starts_with(
 	const string_view_t & where,
 	const string_view_t & what ) noexcept
@@ -29,7 +29,7 @@ bool starts_with(
 			0 == where.compare(0u, what.size(), what);
 }
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 bool ends_with(
 	const string_view_t & where,
 	const string_view_t & what ) noexcept

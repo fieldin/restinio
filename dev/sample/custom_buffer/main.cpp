@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 class custom_buffer_t
 {

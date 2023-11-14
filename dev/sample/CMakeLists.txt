@@ -1,4 +1,4 @@
-project(${RESTINIO_LIBRARY_NAME}_sample)
+project(sample)
 
 add_subdirectory(hello_world_basic)
 add_subdirectory(hello_world)
@@ -17,17 +17,14 @@ add_subdirectory(websocket)
 add_subdirectory(websocket_detailed)
 add_subdirectory(using_external_io_context)
 
-if ( RESTINIO_WITH_SOBJECTIZER )
+if ( RESTINIO_SOBJECTIZER_ENABLED )
 	add_subdirectory(async_handling_with_sobjectizer)
-	add_subdirectory(async_chained_handlers)
 endif()
 
-if (ZLIB_FOUND)
-	add_subdirectory(compression)
-	add_subdirectory(decompression)
-endif ()
+add_subdirectory(compression)
+add_subdirectory(decompression)
 
-if ( RESTINIO_WITH_SOBJECTIZER )
+if ( RESTINIO_SOBJECTIZER_ENABLED )
 	add_subdirectory(notificators)
 endif()
 

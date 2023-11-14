@@ -6,11 +6,11 @@
 	Tests for express router engine.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <iterator>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include "usings.ipp"
 

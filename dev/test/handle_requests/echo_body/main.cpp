@@ -6,9 +6,9 @@
 	Echo server.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <test/common/utest_logger.hpp>
 #include <test/common/pub.hpp>
@@ -39,7 +39,7 @@ perform_test()
 
 			REQUIRE_THAT(
 				response,
-				Catch::Matchers::ContainsSubstring(
+				Catch::Matchers::Contains(
 					"Content-Length: " + std::to_string( body.size() ) ) );
 			REQUIRE_THAT( response, Catch::Matchers::EndsWith( body ) );
 		}
@@ -55,7 +55,7 @@ perform_test()
 
 			REQUIRE_THAT(
 				response,
-				Catch::Matchers::ContainsSubstring(
+				Catch::Matchers::Contains(
 					"Content-Length: " + std::to_string( body.size() ) ) );
 			REQUIRE_THAT( response, Catch::Matchers::EndsWith( body ) );
 		}
@@ -67,7 +67,7 @@ perform_test()
 
 			REQUIRE_THAT(
 				response,
-				Catch::Matchers::ContainsSubstring(
+				Catch::Matchers::Contains(
 					"Content-Length: " + std::to_string( body.size() ) ) );
 			REQUIRE_THAT( response, Catch::Matchers::EndsWith( body ) );
 		}

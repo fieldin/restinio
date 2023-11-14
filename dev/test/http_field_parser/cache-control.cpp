@@ -2,7 +2,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/http_field_parsers/cache-control.hpp>
 
@@ -53,8 +53,8 @@ TEST_CASE( "Cache-Control Field", "[cache-control]" )
 
 		cache_control_value_t::directive_container_t expected_directives{
 			{ "max-age"s, "5"s },
-			{ "no-transform"s, std::nullopt },
-			{ "only-if-cached"s, std::nullopt },
+			{ "no-transform"s, restinio::nullopt },
+			{ "only-if-cached"s, restinio::nullopt },
 			{ "min-fresh"s, "20"s }
 		};
 
@@ -69,8 +69,8 @@ TEST_CASE( "Cache-Control Field", "[cache-control]" )
 
 		cache_control_value_t::directive_container_t expected_directives{
 			{ "max-age"s, "5"s },
-			{ "no-transform"s, std::nullopt },
-			{ "only-if-cached"s, std::nullopt },
+			{ "no-transform"s, restinio::nullopt },
+			{ "only-if-cached"s, restinio::nullopt },
 			{ "min-fresh"s, "20"s }
 		};
 

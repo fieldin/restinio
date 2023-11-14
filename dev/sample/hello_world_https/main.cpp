@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/tls.hpp>
 
 #include <fmt/format.h>

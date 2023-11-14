@@ -3,7 +3,7 @@
 #include <array>
 #include <thread>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include "thread_safe_queue.hpp"
 

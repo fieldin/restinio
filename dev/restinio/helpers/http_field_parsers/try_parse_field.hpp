@@ -15,9 +15,9 @@
 
 #include <restinio/http_headers.hpp>
 #include <restinio/request_handler.hpp>
+#include <restinio/variant.hpp>
 
 #include <iostream>
-#include <variant>
 
 namespace restinio
 {
@@ -49,7 +49,7 @@ namespace try_extract_field_details
  * @since v.0.6.8
  */
 template< typename Parsed_Field_Type >
-using result_variant_t = std::variant<
+using result_variant_t = variant_t<
 		Parsed_Field_Type,
 		field_not_found_t,
 		restinio::easy_parser::parse_error_t >;
@@ -79,10 +79,10 @@ struct valid_field_type<
 // try_extract_field_value_from
 //
 template< typename Parsed_Field_Type >
-[[nodiscard]]
+RESTINIO_NODISCARD
 result_variant_t< Parsed_Field_Type >
 try_extract_field_value_from(
-	std::optional< string_view_t > opt_value,
+	optional_t< string_view_t > opt_value,
 	string_view_t default_value )
 {
 	static_assert( valid_field_type<Parsed_Field_Type>::value,
@@ -121,7 +121,7 @@ try_extract_field_value_from(
  *
  * 	const auto auth_field = try_parse_field< authorization_value_t >(
  * 			req, "X-My-Authorization");
- * 	if(auto * auth = std::get_if<authorization_value_t>(&auth_field)) {
+ * 	if(auto * auth = restinio::get_if<authorization_value_t>(&auth_field)) {
  * 		// X-My-Authorization is successfully parsed.
  * 		if("basic" == auth->auth_scheme) {
  * 			... // Dealing with basic authentification.
@@ -146,7 +146,7 @@ try_extract_field_value_from(
  * @since v.0.6.8
  */
 template< typename Parsed_Field_Type, typename Extra_Data >
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto 
 try_parse_field(
 	//! A request that should hold a HTTP-field.
@@ -179,7 +179,7 @@ try_parse_field(
  *
  * 	const auto auth_field = try_parse_field< authorization_value_t >(
  * 			req, restinio::http_field::authorization);
- * 	if(auto * auth = std::get_if<authorization_value_t>(&auth_field)) {
+ * 	if(auto * auth = restinio::get_if<authorization_value_t>(&auth_field)) {
  * 		// Authorization is successfully parsed.
  * 		if("basic" == auth->auth_scheme) {
  * 			... // Dealing with basic authentification.
@@ -204,8 +204,8 @@ try_parse_field(
  * @since v.0.6.8
  */
 template< typename Parsed_Field_Type, typename Extra_Data >
-[[nodiscard]]
-auto
+RESTINIO_NODISCARD
+auto 
 try_parse_field(
 	//! A request that should hold a HTTP-field.
 	const generic_request_t< Extra_Data > & req,

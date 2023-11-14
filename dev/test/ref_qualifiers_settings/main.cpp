@@ -6,9 +6,9 @@
 	Tests for settings parameters.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 class tagged_object_t
 {
@@ -129,9 +129,9 @@ TEST_CASE( "Ref-qualifiers" , "[settings][ref_qualifiers]" )
 		[ & ]( server_settings_t settings ){
 			REQUIRE( 4242 == settings.port() );
 			REQUIRE( restinio::asio_ns::ip::tcp::v6() == settings.protocol() );
-			REQUIRE( std::holds_alternative<std::string>(settings.address()) );
+			REQUIRE( restinio::holds_alternative<std::string>(settings.address()) );
 			REQUIRE( std::string{ "127.0.0.1" } ==
-					std::get<std::string>(settings.address()) );
+					restinio::get<std::string>(settings.address()) );
 			REQUIRE( 2017 == settings.buffer_size() );
 			REQUIRE( std::chrono::seconds( 120 ) == settings.read_next_http_message_timelimit() );
 			REQUIRE( std::chrono::seconds( 121 ) == settings.write_http_response_timelimit() );

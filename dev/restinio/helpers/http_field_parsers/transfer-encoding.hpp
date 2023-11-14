@@ -13,7 +13,8 @@
 
 #include <restinio/helpers/http_field_parsers/basics.hpp>
 
-#include <variant>
+#include <restinio/variant.hpp>
+
 #include <tuple>
 
 namespace restinio
@@ -55,19 +56,19 @@ struct transfer_encoding_value_t
 		gzip,
 	};
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr known_transfer_coding_t chunked() noexcept
 	{ return known_transfer_coding_t::chunked; }
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr known_transfer_coding_t compress() noexcept
 	{ return known_transfer_coding_t::compress; }
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr known_transfer_coding_t deflate() noexcept
 	{ return known_transfer_coding_t::deflate; }
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static constexpr known_transfer_coding_t gzip() noexcept
 	{ return known_transfer_coding_t::gzip; }
 
@@ -77,7 +78,7 @@ struct transfer_encoding_value_t
 		std::string token;
 		parameter_with_mandatory_value_container_t transfer_parameters;
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		bool
 		operator==( const transfer_extension_t & o ) const noexcept
 		{
@@ -87,7 +88,7 @@ struct transfer_encoding_value_t
 	};
 
 	//! Type for one value from Transfer-Encoding HTTP-field.
-	using value_t = std::variant<
+	using value_t = variant_t<
 			known_transfer_coding_t,
 			transfer_extension_t
 		>;
@@ -101,7 +102,7 @@ struct transfer_encoding_value_t
 	 *
 	 * @since v.0.6.9
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -135,7 +136,7 @@ struct transfer_encoding_value_t
 	 *
 	 * @since v.0.6.9
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t<
 		transfer_encoding_value_t,
 		restinio::easy_parser::parse_error_t >

@@ -1107,7 +1107,7 @@ public :
  * @since v.0.6.7
  */
 template< typename Traits = default_traits_t >
-[[nodiscard]]
+RESTINIO_NODISCARD
 running_server_handle_t< Traits >
 run_async(
 	io_context_holder_t io_context,

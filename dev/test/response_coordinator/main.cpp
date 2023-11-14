@@ -6,11 +6,11 @@
 	Tests response coordinator.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <iterator>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 using namespace restinio;
 using namespace restinio::impl;

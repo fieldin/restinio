@@ -601,14 +601,14 @@ class acceptor_t final
 		 *
 		 * @since v.0.6.11
 		 */
-		[[nodiscard]]
-		static std::optional< asio_ns::ip::address >
+		RESTINIO_NODISCARD
+		static optional_t< asio_ns::ip::address >
 		try_extract_actual_address_from_variant(
 			const restinio::details::address_variant_t & from )
 		{
-			std::optional< asio_ns::ip::address > result;
+			optional_t< asio_ns::ip::address > result;
 
-			if( auto * str_v = std::get_if<std::string>( &from ) )
+			if( auto * str_v = get_if<std::string>( &from ) )
 			{
 				auto str_addr = *str_v;
 				if( str_addr == "localhost" )
@@ -618,7 +618,7 @@ class acceptor_t final
 
 				result = asio_ns::ip::address::from_string( str_addr );
 			}
-			else if( auto * addr_v = std::get_if<asio_ns::ip::address>( &from ) )
+			else if( auto * addr_v = get_if<asio_ns::ip::address>( &from ) )
 			{
 				result = *addr_v;
 			}

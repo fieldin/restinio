@@ -2,7 +2,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/multipart_body.hpp>
 
@@ -25,7 +25,7 @@ public:
 		std::shared_ptr< restinio::tcp_connection_ctx_base_t > & /*self*/ ) override
 	{ /* Nothing to do! */ }
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make( restinio::connection_id_t id )
 	{
@@ -34,7 +34,7 @@ public:
 
 };
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 make_dummy_endpoint()
 {

@@ -8,9 +8,9 @@
 
 #include <bitset>
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/websocket/impl/ws_parser.hpp>
 #include <restinio/websocket/websocket.hpp>
 

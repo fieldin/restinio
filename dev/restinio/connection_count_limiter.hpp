@@ -164,7 +164,7 @@ class actual_limiter_t
 	 */
 	std::vector< std::size_t > m_pending_indexes;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	has_free_slots() const noexcept
 	{
@@ -205,7 +205,7 @@ public:
 		// If the count of connections drops below the limit and
 		// there are some pending indexes then one of them will
 		// be returned (wrapped into an optional).
-		auto index_to_activate = [this]() -> std::optional<std::size_t> {
+		auto index_to_activate = [this]() -> optional_t<std::size_t> {
 			std::lock_guard< Mutex_Type > lock{ m_lock };
 
 			// Expects that m_connections is always greater than 0.
@@ -218,7 +218,7 @@ public:
 				return pending_index;
 			}
 			else
-				return std::nullopt;
+				return nullopt;
 		}();
 
 		if( index_to_activate )

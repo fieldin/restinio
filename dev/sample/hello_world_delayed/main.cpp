@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 // Actual request handler.
 restinio::request_handling_status_t handler(

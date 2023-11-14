@@ -6,9 +6,9 @@
 	Zlib.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/transforms/zlib.hpp>
 
 #include "../random_data_generators.ipp"

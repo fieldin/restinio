@@ -63,7 +63,7 @@ namespace sync_chain
  * }
  *
  * // Building of a chain.
- * restinio::sync_chain::growable_size_chain_t<>::builder_t builder;
+ * restinio::sync_chain::growable_size_chain_t::builder_t builder;
  * if(config.force_headers_checking())
  * 	builder.add(headers_checker);
  * if(config.force_user_authentification())
@@ -194,7 +194,7 @@ public:
 		 * The builder object should not be used after the calling of
 		 * that method.
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		std::unique_ptr< growable_size_chain_t >
 		release() noexcept
 		{
@@ -249,7 +249,7 @@ public:
 	 */
 	growable_size_chain_t() = delete;
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	request_handling_status_t
 	operator()( const actual_request_handle_t & req ) const
 	{

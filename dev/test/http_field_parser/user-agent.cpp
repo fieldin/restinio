@@ -2,7 +2,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/http_field_parsers/user-agent.hpp>
 
@@ -14,7 +14,7 @@ namespace restinio
 namespace http_field_parsers
 {
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline bool
 operator==(
 	const user_agent_value_t::product_t & a,
@@ -29,13 +29,13 @@ operator<<(
 	std::ostream & to,
 	const user_agent_value_t::tail_item_t & i ) noexcept
 {
-	if( auto p = std::get_if<user_agent_value_t::product_t>(&i) ) {
+	if( auto p = restinio::get_if<user_agent_value_t::product_t>(&i) ) {
 		to << "[" << p->product;
 		if( p->product_version )
 			to << ", " << *(p->product_version);
 		to << "]";
 	}
-	else if( auto p2 = std::get_if<std::string>(&i) ) {
+	else if( auto p2 = restinio::get_if<std::string>(&i) ) {
 		to << "(" << *p2 << ")";
 	}
 
@@ -129,10 +129,10 @@ TEST_CASE( "User-Agent Field", "[user-agent]" )
 
 		std::vector< user_agent_value_t::tail_item_t > expected{
 			"X11; Linux x86_64"s,
-			user_agent_value_t::product_t{ "AppleWebKit"s, std::nullopt },
+			user_agent_value_t::product_t{ "AppleWebKit"s, restinio::nullopt },
 			"KHTML, like Gecko"s,
 			user_agent_value_t::product_t{ "Chrome"s, "79.0.3945.130"s },
-			user_agent_value_t::product_t{ "Safari"s, std::nullopt }
+			user_agent_value_t::product_t{ "Safari"s, restinio::nullopt }
 		};
 
 		REQUIRE( result->tail == expected );

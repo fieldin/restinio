@@ -266,7 +266,7 @@ public:
 	 * @retval false if the sequence is invalid an there is no sense
 	 * to continue call process_byte().
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	process_byte( std::uint8_t byte ) noexcept
 	{
@@ -311,7 +311,7 @@ public:
 	/*!
 	 * @return true if the current sequence finalized.
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	finalized() const noexcept
 	{
@@ -337,7 +337,7 @@ public:
 	 * - some bytes were successfully feed into process_byte();
 	 * - finalized() returns `true`.
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	std::uint32_t
 	current_symbol() const noexcept { return m_current_symbol; }
 };

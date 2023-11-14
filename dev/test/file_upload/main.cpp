@@ -2,7 +2,7 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
 #include <restinio/helpers/file_upload.hpp>
 
@@ -10,7 +10,7 @@
 
 using namespace std::string_literals;
 
-[[nodiscard]]
+RESTINIO_NODISCARD
 auto
 make_dummy_endpoint()
 {

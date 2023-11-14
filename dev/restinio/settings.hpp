@@ -16,8 +16,9 @@
 
 #include <restinio/incoming_http_msg_limits.hpp>
 
+#include <restinio/variant.hpp>
+
 #include <chrono>
-#include <variant>
 #include <tuple>
 #include <utility>
 
@@ -456,7 +457,7 @@ struct no_address_specified_t {};
  *
  * @since v.0.6.11
  */
-using address_variant_t = std::variant<
+using address_variant_t = variant_t<
 		no_address_specified_t,
 		std::string,
 		asio_ns::ip::address >;
@@ -594,7 +595,7 @@ class basic_server_settings_t
 			return std::move( this->port( p ) );
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		std::uint16_t
 		port() const
 		{
@@ -614,7 +615,7 @@ class basic_server_settings_t
 			return std::move( this->protocol( p ) );
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		asio_ns::ip::tcp
 		protocol() const
 		{
@@ -711,7 +712,7 @@ class basic_server_settings_t
 			return std::move( this->address( addr ) );
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		const details::address_variant_t &
 		address() const
 		{
@@ -877,42 +878,11 @@ class basic_server_settings_t
 		//! \}
 
 
-		//! \name Timers manager.
+		//! Timers manager.
 		//! \{
-		/*!
-		 * @brief Short alias for timer_manager type.
-		 */
 		using timer_manager_t = typename Traits::timer_manager_t;
-		/*!
-		 * @brief Short alias for type of a factory that creates
-		 * instances of timer_manager.
-		 */
 		using timer_factory_t = typename timer_manager_t::factory_t;
 
-		/*!
-		 * @brief Creates a factory object that will be used for creation
-		 * of an actual timer_manager instance.
-		 *
-		 * An instance of @a Traits::timer_manager_t::factory_t is created
-		 * dynamically. All @a params are passed to std::make_unique call
-		 * and will be forwarded to the constructor of @a timer_factory_t.
-		 *
-		 * Usage example:
-		 * @code
-		 * struct my_traits : public restinio::traits_t<
-		 * 	restinio::asio_timer_manager_t, my_logger >
-		 * {
-		 * 	using request_handler_t = ...; // Some request handler type.
-		 * };
-		 * ...
-		 * restinio::run(
-		 * 	restinio::on_this_thread<my_traits>()
-		 * 		.port(8080)
-		 * 		.address("localhost")
-		 * 		.timer_manager(std::chrono::milliseconds{250})
-		 * 		.request_handler(...));
-		 * @endcode
-		 */
 		template< typename... Params >
 		Derived &
 		timer_manager( Params &&... params ) &
@@ -922,13 +892,6 @@ class basic_server_settings_t
 					std::forward< Params >( params )... );
 		}
 
-		/*!
-		 * @brief Creates a factory object that will be used for creation
-		 * of an actual timer_manager instance.
-		 *
-		 * For more information and usage example see the documentation
-		 * for another overload.
-		 */
 		template< typename... Params >
 		Derived &&
 		timer_manager( Params &&... params ) &&
@@ -945,7 +908,7 @@ class basic_server_settings_t
 		}
 		//! \}
 
-		//! \name Logger.
+		//! Logger.
 		//! \{
 		using logger_t = typename Traits::logger_t;
 
@@ -974,7 +937,7 @@ class basic_server_settings_t
 		}
 		//! \}
 
-		//! \name Acceptor options setter.
+		//! Acceptor options setter.
 		//! \{
 		Derived &
 		acceptor_options_setter( acceptor_options_setter_t aos ) &
@@ -1002,7 +965,7 @@ class basic_server_settings_t
 		}
 		//! \}
 
-		//! \name Socket options setter.
+		//! Socket options setter.
 		//! \{
 		Derived &
 		socket_options_setter( socket_options_setter_t sos ) &
@@ -1093,7 +1056,7 @@ class basic_server_settings_t
 		}
 		//! \}
 
-		//! \name Cleanup function.
+		//! Cleanup function.
 		//! \{
 		template< typename Func >
 		Derived &
@@ -1116,7 +1079,7 @@ class basic_server_settings_t
 		 * changed or removed in future versions of RESTinio without any
 		 * notice.
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		cleanup_functor_t
 		giveaway_cleanup_func()
 		{
@@ -1425,7 +1388,7 @@ class basic_server_settings_t
 		 *
 		 * @since v.0.6.11
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		acceptor_post_bind_hook_t
 		giveaway_acceptor_post_bind_hook()
 		{
@@ -1445,7 +1408,7 @@ class basic_server_settings_t
 		 *
 		 * @since v.0.6.12
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		const incoming_http_msg_limits_t &
 		incoming_http_msg_limits() const noexcept
 		{
@@ -1677,7 +1640,7 @@ class basic_server_settings_t
 		 * @brief Extractor for extra-data-factory.
 		 * @since v.0.6.13
 		 */
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		extra_data_factory_handle_t
 		giveaway_extra_data_factory() const noexcept
 		{

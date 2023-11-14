@@ -1,5 +1,6 @@
 project(tests)
 
+add_subdirectory(catch_main)
 add_subdirectory(metaprogramming)
 add_subdirectory(tuple_algorithms)
 
@@ -22,13 +23,9 @@ add_subdirectory(run_on_thread_pool)
 add_subdirectory(http_pipelining)
 add_subdirectory(sendfile)
 add_subdirectory(router)
-
-if (ZLIB_FOUND)
-	add_subdirectory(transforms/zlib)
-	add_subdirectory(transforms/zlib_body_appender)
-	add_subdirectory(transforms/zlib_body_handler)
-endif ()
-
+add_subdirectory(transforms/zlib)
+add_subdirectory(transforms/zlib_body_appender)
+add_subdirectory(transforms/zlib_body_handler)
 add_subdirectory(encoders)
 add_subdirectory(from_string)
 add_subdirectory(websocket)

@@ -1,4 +1,4 @@
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 #include <restinio/router/pcre2_regex_engine.hpp>
 
 #define RESTINIO_EXPRESS_ROUTER_BENCH_APP_TITLE "Express router (pcre2) benchmark"

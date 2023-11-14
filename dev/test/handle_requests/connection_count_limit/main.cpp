@@ -6,9 +6,9 @@
 	Echo server.
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <restinio/helpers/string_algo.hpp>
 

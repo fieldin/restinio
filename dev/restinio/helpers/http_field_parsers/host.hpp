@@ -15,7 +15,7 @@
 
 #include <restinio/helpers/http_field_parsers/details/pct_encoded_symbols.hpp>
 
-#include <variant>
+#include <restinio/variant.hpp>
 
 namespace restinio
 {
@@ -43,7 +43,7 @@ namespace hfp_details = restinio::http_field_parsers::details;
  */
 struct unreserved_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -67,7 +67,7 @@ struct unreserved_predicate_t
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 unreserved_symbol_p()
 {
@@ -87,7 +87,7 @@ unreserved_symbol_p()
  */
 struct sub_delims_predicate_t
 {
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	bool
 	operator()( const char actual ) const noexcept
 	{
@@ -116,7 +116,7 @@ struct sub_delims_predicate_t
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 sub_delims_symbol_p()
 {
@@ -144,7 +144,7 @@ dec-octet     = DIGIT                 ; 0-9
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 ipv4_address_p()
 {
@@ -193,13 +193,13 @@ struct debug_printer : public ep_impl::clause_tag
 	debug_printer( std::string v ) noexcept : m_tag{ std::move(v) } {}
 
 	template< typename Target_Type >
-	[[nodiscard]]
-	std::optional< parse_error_t >
+	RESTINIO_NODISCARD
+	optional_t< parse_error_t >
 	try_process( ep_impl::source_t & from, Target_Type & /*target*/ )
 	{
 		std::cout << "*** debug_print: " << m_tag << std::endl;
 
-		return std::nullopt;
+		return nullopt;
 	}
 };
 #endif
@@ -230,7 +230,7 @@ struct debug_printer : public ep_impl::clause_tag
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 ipv6_address_p()
 {
@@ -348,7 +348,7 @@ reg-name      = 1*( unreserved / pct-encoded / sub-delims )
  *
  * @since v.0.6.9
  */
-[[nodiscard]]
+RESTINIO_NODISCARD
 inline auto
 reg_name_p()
 {
@@ -411,7 +411,7 @@ struct raw_host_value_t
 			return a.v < b.v;
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		static reg_name_t
 		from_string( std::string v ) noexcept
 		{
@@ -444,7 +444,7 @@ struct raw_host_value_t
 			return a.v < b.v;
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		static ipv4_address_t
 		from_string( std::string v ) noexcept
 		{
@@ -477,7 +477,7 @@ struct raw_host_value_t
 			return a.v < b.v;
 		}
 
-		[[nodiscard]]
+		RESTINIO_NODISCARD
 		static ipv6_address_t
 		from_string( std::string v ) noexcept
 		{
@@ -485,7 +485,7 @@ struct raw_host_value_t
 		}
 	};
 
-	using host_value_t = std::variant< reg_name_t, ipv4_address_t, ipv6_address_t >;
+	using host_value_t = variant_t< reg_name_t, ipv4_address_t, ipv6_address_t >;
 
 	host_value_t host;
 
@@ -493,14 +493,14 @@ struct raw_host_value_t
 	/*!
 	 * Will be empty if there is no 'port' in the value of Host HTTP-field.
 	 */
-	std::optional<std::uint16_t> port;
+	optional_t<std::uint16_t> port;
 
 	/*!
 	 * @brief A factory function for a parser of Host value.
 	 *
 	 * @since v.0.6.9
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static auto
 	make_parser()
 	{
@@ -545,7 +545,7 @@ struct raw_host_value_t
 	 *
 	 * @since v.0.6.9
 	 */
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	static expected_t< raw_host_value_t, restinio::easy_parser::parse_error_t >
 	try_parse( string_view_t what )
 	{

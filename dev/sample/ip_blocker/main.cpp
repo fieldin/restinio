@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 // Class for connection state listener and IP-blocker.
 class blocker_t
@@ -51,12 +51,12 @@ public:
 
 		auto & connections = m_connections[ notice.remote_endpoint().address() ];
 		const auto cause = notice.cause();
-		if( std::holds_alternative< accepted_t >( cause ) )
+		if( restinio::holds_alternative< accepted_t >( cause ) )
 		{
 			// Info about a new connection must be stored.
 			connections.push_back( notice.connection_id() );
 		}
-		else if( std::holds_alternative< closed_t >( cause ) )
+		else if( restinio::holds_alternative< closed_t >( cause ) )
 		{
 			// Info about closed connection must be removed.
 			connections.erase(

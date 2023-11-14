@@ -2,9 +2,9 @@
 	restinio
 */
 
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 
-#include <restinio/core.hpp>
+#include <restinio/all.hpp>
 
 #include <test/common/utest_logger.hpp>
 #include <test/common/pub.hpp>
@@ -52,21 +52,21 @@ public:
 		new(buffer.get()) data_t{ m_ctor_dtor_monitors, ++m_index_counter };
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	int
 	current_value() noexcept
 	{
 		return m_index_counter.load( std::memory_order_acquire );
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	int
 	constructors_called() noexcept
 	{
 		return m_ctor_dtor_monitors.m_constructors.load( std::memory_order_acquire );
 	}
 
-	[[nodiscard]]
+	RESTINIO_NODISCARD
 	int
 	destructors_called() noexcept
 	{
